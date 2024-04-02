@@ -5,15 +5,10 @@ info:
   description: This is an API to query available products in the DB
   version: 1.0.0
 servers:
-  - url: https://virtserver.swaggerhub.com/FRANCESCAGIAMMICHELE/first/1.0.0
-    description: SwaggerHub API Auto Mocking
   - url: https://virtserver.swaggerhub.com/FRANCESCAGIAMMICHELE/challenge1/1.0.0
     description: SwaggerHub API Auto Mocking
-basePath: "/api"
-produces:
-  - application/json
 paths:
-  /products:
+  /api/products:
     get:
       summary: searches products
       description: |
@@ -37,9 +32,26 @@ paths:
           style: form
           explode: true
           schema:
-            minimum: 1
+            maximum: 50
+            minimum: 0
             type: integer
             format: int32
+        - name: category
+          in: query
+          description: category of the item
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: search
+          in: query
+          description: search criteria
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
       responses:
         "200":
           description: search results matching criteria
@@ -50,7 +62,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Products"
         "400":
-          description: Bad input parameter
+          description: bad input parameter
 components:
   schemas:
     Products:
