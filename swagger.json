@@ -50,8 +50,7 @@
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string",
-            "format" : "int32"
+            "type" : "string"
           }
         }, {
           "name" : "search",
@@ -61,8 +60,7 @@
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string",
-            "format" : "int32"
+            "type" : "string"
           }
         } ],
         "responses" : {
