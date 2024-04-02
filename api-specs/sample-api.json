@@ -42,9 +42,32 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "minimum": 1,
+              "maximum": 50,
+              "minimum": 0,
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "category of the item",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "search criteria",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -63,7 +86,7 @@
             }
           },
           "400": {
-            "description": "Bad input parameter"
+            "description": "bad input parameter"
           }
         }
       }
@@ -72,7 +95,11 @@
   "components": {
     "schemas": {
       "Products": {
-        "required": ["products", "total", "totalPages"],
+        "required": [
+          "products",
+          "total",
+          "totalPages"
+        ],
         "type": "object",
         "properties": {
           "products": {
