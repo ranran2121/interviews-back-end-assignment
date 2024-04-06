@@ -22,27 +22,35 @@ export function validateCreditCardInput(input: CreditCardType) {
       amount: Joi.number().required(),
     })
     .custom((value, helpers) => {
-      const { expiryMonth, expiryYear } = value;
-      const currentYear = new Date().getFullYear();
-      const currentMonth = new Date().getMonth() + 1;
-
-      if (
-        parseInt(expiryYear, 10) < currentYear ||
-        (parseInt(expiryYear, 10) === currentYear &&
-          parseInt(expiryMonth, 10) < currentMonth)
-      ) {
-        return helpers.message({
-          custom: "Credit card is expired",
-        });
-      }
-
-      return value;
+      const v = validateExpiration(value, helpers);
+      return v;
     });
 
   const { error, value } = schema.validate(input);
 
   if (error) {
     throw new Error(`Validation Error: ${error.details[0].message}`);
+  }
+
+  return value;
+}
+
+export function validateExpiration(
+  value: { expiryMonth: any; expiryYear: any },
+  helpers: { message: (arg0: { custom: string }) => any }
+) {
+  const { expiryMonth, expiryYear } = value;
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+
+  if (
+    parseInt(expiryYear, 10) < currentYear ||
+    (parseInt(expiryYear, 10) === currentYear &&
+      parseInt(expiryMonth, 10) < currentMonth)
+  ) {
+    return helpers.message({
+      custom: "Credit card is expired",
+    });
   }
 
   return value;
