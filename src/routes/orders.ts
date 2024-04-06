@@ -17,7 +17,7 @@ orderRoutes.post("/", async (req: Request, res: Response) => {
     const { totalItems, totalPrice } = calculateTotal(req.body.cart);
 
     return res
-      .status(paymentResponse.data.status === "approved" ? 200 : 400)
+      .status(paymentResponse.data.status === "approved" ? 200 : 402)
       .json({
         payment: paymentResponse.data.status,
         totalItems,
@@ -25,6 +25,11 @@ orderRoutes.post("/", async (req: Request, res: Response) => {
         orderDetails: input,
       });
   } catch (error) {
+    if (error.message.includes("Validation Error")) {
+      return res.status(400).json({
+        error: error.message,
+      });
+    }
     return res.status(500).json({
       error: error.message || "Internal Server Error",
     });
