@@ -105,7 +105,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/definitions/OrderResponse"
+                  "$ref" : "#/components/schemas/OrderResponse"
                 }
               }
             }
@@ -115,7 +115,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/definitions/OrderErrorResponse"
+                  "$ref" : "#/components/schemas/OrderErrorResponse"
                 }
               }
             }
@@ -125,7 +125,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/definitions/OrderResponse"
+                  "$ref" : "#/components/schemas/OrderResponse"
                 }
               }
             }
@@ -135,7 +135,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/definitions/OrderErrorResponse"
+                  "$ref" : "#/components/schemas/OrderErrorResponse"
                 }
               }
             }
@@ -286,48 +286,37 @@
           }
         }
       },
-      "Schema" : {
+      "OrderResponse" : {
         "type" : "object",
+        "required" : [ "payment", "totalItems", "totalPrice", "orderDetails" ],
         "properties" : {
-          "id" : {
+          "totalItems" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int32",
+            "example" : 11
+          },
+          "totalPrice" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 66.6
+          },
+          "payment" : {
+            "type" : "string",
+            "enum" : [ "approved", "declined", "error" ]
+          },
+          "orderDetails" : {
+            "$ref" : "#/components/schemas/Order"
           }
         }
-      }
-    }
-  },
-  "definitions" : {
-    "OrderResponse" : {
-      "type" : "object",
-      "required" : [ "payment", "totalItems", "totalPrice", "orderDetails" ],
-      "properties" : {
-        "totalItems" : {
-          "type" : "integer",
-          "format" : "int32",
-          "example" : 11
-        },
-        "totalPrice" : {
-          "type" : "number",
-          "format" : "double",
-          "example" : 66.6
-        },
-        "payment" : {
-          "type" : "string",
-          "enum" : [ "approved", "declined", "error" ]
-        },
-        "orderDetails" : {
-          "$ref" : "#/components/schemas/Order"
-        }
-      }
-    },
-    "OrderErrorResponse" : {
-      "type" : "object",
-      "required" : [ "error" ],
-      "properties" : {
-        "error" : {
-          "type" : "string",
-          "example" : "Internal Server Error"
+      },
+      "OrderErrorResponse" : {
+        "type" : "object",
+        "required" : [ "error" ],
+        "properties" : {
+          "error" : {
+            "type" : "string",
+            "example" : "Internal Server Error"
+          }
         }
       }
     }
