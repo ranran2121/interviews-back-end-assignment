@@ -7,14 +7,14 @@ const orderRoutes = express.Router();
 orderRoutes.post("/", async (req: Request, res: Response) => {
   try {
     const input = validateOrderInput(req.body);
+    const { totalItems, totalPrice } = calculateTotal(req.body.cart);
+    const paymentBody = { ...req.body.creditCard, amount: totalPrice };
 
     // send request to payment service
     const paymentResponse = await axios.post(
       "http://localhost:4000/api/payment",
-      req.body.creditCard
+      paymentBody
     );
-
-    const { totalItems, totalPrice } = calculateTotal(req.body.cart);
 
     return res
       .status(paymentResponse.data.status === "approved" ? 200 : 402)

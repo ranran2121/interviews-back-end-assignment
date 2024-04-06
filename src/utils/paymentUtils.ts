@@ -1,7 +1,7 @@
 import Joi from "joi";
-import { CreditCardType } from "../types";
+import { PaymentType } from "../types";
 
-export function validateCreditCardInput(input: CreditCardType) {
+export function validatePaymentInput(input: PaymentType) {
   const schema = Joi.object()
     .keys({
       cardNumber: Joi.string().required().trim().length(16).pattern(/^\d+$/),

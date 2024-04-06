@@ -12,7 +12,6 @@ export type CreditCardType = {
   expiryMonth: string;
   expiryYear: string;
   cvv: string;
-  amount: number;
 };
 
 export type CartItemType = {
@@ -25,4 +24,8 @@ export type OrderType = {
   address: string;
   paymentMethod: "creditCard" | "paypal" | "bankTransfer";
   creditCard?: CreditCardType;
+};
+
+export type PaymentType = CreditCardType & {
+  amount: number;
 };

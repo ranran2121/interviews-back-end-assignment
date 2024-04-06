@@ -1,11 +1,11 @@
 import express, { Request, Response } from "express";
-import { validateCreditCardInput } from "../utils/creditCardUtils";
+import { validatePaymentInput } from "../utils/paymentUtils";
 
 const paymentRoutes = express.Router();
 
 paymentRoutes.post("/", async (req: Request, res: Response) => {
   try {
-    validateCreditCardInput(req.body);
+    validatePaymentInput(req.body);
 
     //here I should check if the card is able to cover the amount of the payment
     //not having info about the active balance of the card, I generate a random number that simulate the credit card coverage

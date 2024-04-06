@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { CartItemType, OrderType } from "../types";
-import { validateExpiration } from "./creditCardUtils";
+import { validateExpiration } from "./paymentUtils";
 
 export function validateOrderInput(input: OrderType) {
   const schema = Joi.object()
@@ -46,7 +46,6 @@ export function validateOrderInput(input: OrderType) {
             .trim()
             .length(3)
             .pattern(/^\d{3}$/),
-          amount: Joi.number().required(),
         }).custom((value, helpers) => {
           const v = validateExpiration(value, helpers);
           return v;
