@@ -189,7 +189,7 @@
         }
       },
       "Order" : {
-        "required" : "-cart -address -paymentMethod -creditCard",
+        "required" : [ "cart", "address", "paymentMethod" ],
         "type" : "object",
         "properties" : {
           "address" : {
@@ -200,10 +200,26 @@
             "type" : "string",
             "enum" : [ "creditCard", "paypal", "bankTransfer" ]
           },
-          "creditCard" : {
-            "type" : null
+          "cart" : {
+            "$ref" : "#/components/schemas/Cart"
           }
-        }
+        },
+        "allOf" : [ {
+          "if" : null,
+          "properties" : {
+            "paymentMethod" : {
+              "const" : "creditCard"
+            }
+          },
+          "then" : {
+            "required" : [ "creditCard" ],
+            "properties" : {
+              "creditCard" : {
+                "$ref" : "#/components/schemas/CreditCard"
+              }
+            }
+          }
+        } ]
       }
     }
   }
