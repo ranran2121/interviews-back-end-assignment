@@ -202,13 +202,12 @@
           },
           "cart" : {
             "$ref" : "#/components/schemas/Cart"
-          }
-        },
-        "allOf" : [ {
-          "if" : null,
-          "properties" : {
-            "paymentMethod" : {
-              "const" : "creditCard"
+          },
+          "if" : {
+            "properties" : {
+              "paymentMethod" : {
+                "enum" : [ "creditCard" ]
+              }
             }
           },
           "then" : {
@@ -219,7 +218,17 @@
               }
             }
           }
-        } ]
+        }
+      },
+      "Cart" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/CartItem"
+        }
+      },
+      "CartItem" : {
+        "type" : "object",
+        "required" : [ "quantity", "product" ]
       }
     }
   }
