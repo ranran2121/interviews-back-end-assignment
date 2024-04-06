@@ -6,3 +6,10 @@ export type ProductType = {
   availableQuantity: number;
   category: string;
 };
+export type CreditCardType = {
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cvv: string;
+  amount: number;
+};
