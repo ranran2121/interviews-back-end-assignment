@@ -82,6 +82,50 @@
           }
         }
       }
+    },
+    "/api/orders" : {
+      "post" : {
+        "summary" : "send client's order",
+        "description" : "By sending the order details and credit car number, you can retrieve the information about the success or failure of the order",
+        "parameters" : [ {
+          "in" : "body",
+          "description" : "Order request object",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/Order"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "order posted successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          },
+          "402" : {
+            "description" : "payment required",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "internal server error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -141,6 +185,23 @@
           "category" : {
             "type" : "string",
             "example" : "Fruit"
+          }
+        }
+      },
+      "Order" : {
+        "required" : "-cart -address -paymentMethod -creditCard",
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string",
+            "example" : "baker street,21 - 21021 London - UK"
+          },
+          "paymentMethod" : {
+            "type" : "string",
+            "enum" : [ "creditCard", "paypal", "bankTransfer" ]
+          },
+          "creditCard" : {
+            "type" : null
           }
         }
       }
