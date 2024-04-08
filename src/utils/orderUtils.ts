@@ -9,6 +9,7 @@ export function validateOrderInput(input: OrderType) {
       paymentMethod: Joi.string()
         .valid("creditCard", "paypal", "bankTransfer")
         .required(),
+      usePoints: Joi.boolean().default(false),
       cart: Joi.array()
         .required()
         .items(
@@ -20,6 +21,7 @@ export function validateOrderInput(input: OrderType) {
               price: Joi.number().required(),
               availableQuantity: Joi.number().required(),
               category: Joi.string().required(),
+              specialBonus: Joi.number().integer().min(1).max(3).default(1),
             }),
             quantity: Joi.number().required(),
           })
@@ -67,16 +69,23 @@ export function validateOrderInput(input: OrderType) {
 export function calculateTotal(cart: CartItemType[]): {
   totalItems: number;
   totalPrice: number;
+  totalPriceWithBonus: number;
 } {
-  const { totalItems, totalPrice } = cart.reduce(
+  const { totalItems, totalPrice, totalPriceWithBonus } = cart.reduce(
     (acc, cartItem) => {
       const { product, quantity } = cartItem;
+      const bonus = product.specialBonus ?? 1;
       acc.totalItems += quantity;
       acc.totalPrice += product.price * quantity;
+      acc.totalPriceWithBonus += product.price * quantity * bonus;
       return acc;
     },
-    { totalItems: 0, totalPrice: 0 }
+    { totalItems: 0, totalPrice: 0, totalPriceWithBonus: 0 }
   );
 
-  return { totalItems, totalPrice };
+  return {
+    totalItems,
+    totalPrice,
+    totalPriceWithBonus: Math.floor(totalPriceWithBonus / 25),
+  };
 }

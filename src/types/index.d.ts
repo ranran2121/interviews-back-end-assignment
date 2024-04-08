@@ -5,6 +5,7 @@ export type ProductType = {
   price: number;
   availableQuantity: number;
   category: string;
+  specialBonus?: number;
 };
 
 export type CreditCardType = {
@@ -24,6 +25,7 @@ export type OrderType = {
   address: string;
   paymentMethod: "creditCard" | "paypal" | "bankTransfer";
   creditCard?: CreditCardType;
+  usePoints?: boolean;
 };
 
 export type PaymentType = CreditCardType & {
