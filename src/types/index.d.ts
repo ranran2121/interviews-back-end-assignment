@@ -6,3 +6,26 @@ export type ProductType = {
   availableQuantity: number;
   category: string;
 };
+
+export type CreditCardType = {
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cvv: string;
+};
+
+export type CartItemType = {
+  product: ProductType;
+  quantity: number;
+};
+
+export type OrderType = {
+  cart: CartItemType[];
+  address: string;
+  paymentMethod: "creditCard" | "paypal" | "bankTransfer";
+  creditCard?: CreditCardType;
+};
+
+export type PaymentType = CreditCardType & {
+  amount: number;
+};
