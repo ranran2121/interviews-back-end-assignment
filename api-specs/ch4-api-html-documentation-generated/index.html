@@ -249,9 +249,11 @@
     "if" : {
       "paymentMethod" : ""
     },
+    "usePoints" : false,
     "cart" : [ {
       "product" : {
         "availableQuantity" : 17,
+        "specialBonus" : 1,
         "price" : 66.6,
         "imageUrl" : "https://via.placeholder.com/150?text=Product+11",
         "name" : "Watermelon",
@@ -262,6 +264,7 @@
     }, {
       "product" : {
         "availableQuantity" : 17,
+        "specialBonus" : 1,
         "price" : 66.6,
         "imageUrl" : "https://via.placeholder.com/150?text=Product+11",
         "name" : "Watermelon",
@@ -272,6 +275,7 @@
     } ]
   },
   "totalItems" : 11,
+  "amountPaid" : 66.6,
   "totalPrice" : 66.6,
   "payment" : "approved"
 }</code></pre>
@@ -338,6 +342,7 @@ the products in the system</div>
   "totalPages" : 11,
   "products" : [ {
     "availableQuantity" : 17,
+    "specialBonus" : 1,
     "price" : 66.6,
     "imageUrl" : "https://via.placeholder.com/150?text=Product+11",
     "name" : "Watermelon",
@@ -345,6 +350,7 @@ the products in the system</div>
     "category" : "Fruit"
   }, {
     "availableQuantity" : 17,
+    "specialBonus" : 1,
     "price" : 66.6,
     "imageUrl" : "https://via.placeholder.com/150?text=Product+11",
     "name" : "Watermelon",
@@ -356,6 +362,7 @@ the products in the system</div>
   "totalPages" : 11,
   "products" : [ {
     "availableQuantity" : 17,
+    "specialBonus" : 1,
     "price" : 66.6,
     "imageUrl" : "https://via.placeholder.com/150?text=Product+11",
     "name" : "Watermelon",
@@ -363,6 +370,7 @@ the products in the system</div>
     "category" : "Fruit"
   }, {
     "availableQuantity" : 17,
+    "specialBonus" : 1,
     "price" : 66.6,
     "imageUrl" : "https://via.placeholder.com/150?text=Product+11",
     "name" : "Watermelon",
@@ -444,6 +452,7 @@ the products in the system</div>
 <div class="param">paymentMethod </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">creditCard</div><div class="param-enum">paypal</div><div class="param-enum">bankTransfer</div>
+<div class="param">usePoints (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
 <div class="param">cart </div><div class="param-desc"><span class="param-type"><a href="#Cart">Cart</a></span>  </div>
 <div class="param">if (optional)</div><div class="param-desc"><span class="param-type"><a href="#Order_if">Order_if</a></span>  </div>
 <div class="param">then (optional)</div><div class="param-desc"><span class="param-type"><a href="#Order_then">Order_then</a></span>  </div>
@@ -468,6 +477,8 @@ the products in the system</div>
 <div class="param">payment </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">approved</div><div class="param-enum">declined</div><div class="param-enum">error</div>
+<div class="param">amountPaid </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+          <div class="param-desc"><span class="param-type">example: 66.6</span></div>
 <div class="param">orderDetails </div><div class="param-desc"><span class="param-type"><a href="#Order">Order</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
@@ -501,6 +512,7 @@ the products in the system</div>
           <div class="param-desc"><span class="param-type">example: 17</span></div>
 <div class="param">category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
           <div class="param-desc"><span class="param-type">example: Fruit</span></div>
+<div class="param">specialBonus (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

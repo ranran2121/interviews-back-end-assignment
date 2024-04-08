@@ -9,4 +9,5 @@ export const productList: ProductType[] = names.map((name, index) => ({
   price: parseFloat((Math.random() * 40).toFixed(2)),
   category: randomGroceryCategory(),
   availableQuantity: parseInt((Math.random() * 50).toFixed()),
+  specialBonus: Math.floor(Math.random() * 3) + 1,
 }));

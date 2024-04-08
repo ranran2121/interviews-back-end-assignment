@@ -7,8 +7,13 @@ const orderRoutes = express.Router();
 orderRoutes.post("/", async (req: Request, res: Response) => {
   try {
     const input = validateOrderInput(req.body);
-    const { totalItems, totalPrice } = calculateTotal(req.body.cart);
-    const paymentBody = { ...req.body.creditCard, amount: totalPrice };
+    const { totalItems, totalPrice, totalPriceWithBonus } = calculateTotal(
+      input.cart
+    );
+    const paymentBody = {
+      ...input.creditCard,
+      amount: input.usePoints ? totalPrice - totalPriceWithBonus : totalPrice,
+    };
 
     // send request to payment service
     const paymentResponse = await axios.post(
@@ -22,6 +27,7 @@ orderRoutes.post("/", async (req: Request, res: Response) => {
         payment: paymentResponse.data.status,
         totalItems,
         totalPrice,
+        amountPaid: paymentBody.amount,
         orderDetails: input,
       });
   } catch (error) {

@@ -220,6 +220,12 @@
           "category": {
             "type": "string",
             "example": "Fruit"
+          },
+          "specialBonus": {
+            "maximum": 3,
+            "minimum": 1,
+            "type": "integer",
+            "default": 1
           }
         }
       },
@@ -242,6 +248,10 @@
               "paypal",
               "bankTransfer"
             ]
+          },
+          "usePoints": {
+            "type": "boolean",
+            "default": false
           },
           "cart": {
             "$ref": "#/components/schemas/Cart"
@@ -314,6 +324,7 @@
       },
       "OrderResponse": {
         "required": [
+          "amountPaid",
           "orderDetails",
           "payment",
           "totalItems",
@@ -338,6 +349,11 @@
               "declined",
               "error"
             ]
+          },
+          "amountPaid": {
+            "type": "number",
+            "format": "double",
+            "example": 66.6
           },
           "orderDetails": {
             "$ref": "#/components/schemas/Order"
