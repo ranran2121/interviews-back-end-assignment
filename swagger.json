@@ -375,14 +375,10 @@
         }
       },
       "Discounts" : {
-        "oneOf" : [ {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/components/schemas/DiscountItem"
-          }
-        }, {
-          "type" : "array"
-        } ]
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/DiscountItem"
+        }
       },
       "DiscountItem" : {
         "type" : "object",
