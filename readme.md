@@ -86,6 +86,12 @@ Update the system to include this information in the whole process.
 
 ## How to run
 
+Run the script
+
+```bash
+$ npm run dev:watch
+```
+
 ![Capybara](https://media.istockphoto.com/id/1418210562/photo/brazil-wildlife-capybara-hydrochoerus-hydrochaeris-biggest-mouse-near-the-water-with-evening.jpg?s=612x612&w=0&k=20&c=4n7n90f6wotXEqt_Wg9R-zpHSrzuu275_4vMdQXToiM=)
 
 ...
