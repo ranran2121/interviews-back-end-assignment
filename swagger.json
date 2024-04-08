@@ -142,6 +142,41 @@
           }
         }
       }
+    },
+    "/api/discounts" : {
+      "get" : {
+        "summary" : "searches discounts",
+        "description" : "By passing in the appropriate options, you can search for\nthe discounts in the system\n",
+        "parameters" : [ {
+          "name" : "active",
+          "in" : "query",
+          "description" : "search active discounts",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list discounts matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Discounts"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -298,7 +333,7 @@
       },
       "OrderResponse" : {
         "type" : "object",
-        "required" : [ "payment", "totalItems", "totalPrice", "amountPaid", "orderDetails" ],
+        "required" : [ "payment", "totalItems", "totalPrice", "totalPriceWithDiscounts", "amountPaid", "orderDetails" ],
         "properties" : {
           "totalItems" : {
             "type" : "integer",
@@ -306,6 +341,11 @@
             "example" : 11
           },
           "totalPrice" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 66.6
+          },
+          "totalPriceWithDiscounts" : {
             "type" : "number",
             "format" : "double",
             "example" : 66.6
@@ -331,6 +371,34 @@
           "error" : {
             "type" : "string",
             "example" : "Internal Server Error"
+          }
+        }
+      },
+      "Discounts" : {
+        "oneOf" : [ {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/components/schemas/DiscountItem"
+          }
+        }, {
+          "type" : "array"
+        } ]
+      },
+      "DiscountItem" : {
+        "type" : "object",
+        "required" : [ "productId", "percentage" ],
+        "properties" : {
+          "productId" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11
+          },
+          "percentage" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 50,
+            "minimum" : 0,
+            "maximum" : 100
           }
         }
       }
