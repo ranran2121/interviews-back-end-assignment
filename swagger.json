@@ -1,8 +1,8 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "title" : "Products API",
-    "description" : "This is an API to query available products in the DB",
+    "title" : "Be interview API",
+    "description" : "This is an API to query available products and discounts in the DB and place orders",
     "version" : "1.0.0"
   },
   "servers" : [ {
