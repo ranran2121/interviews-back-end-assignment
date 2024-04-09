@@ -150,16 +150,49 @@
           }
         }
       }
+    },
+    "/api/discounts": {
+      "get": {
+        "summary": "searches discounts",
+        "description": "By passing in the appropriate options, you can search for\nthe discounts in the system\n",
+        "parameters": [
+          {
+            "name": "active",
+            "in": "query",
+            "description": "search active discounts",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "list discounts matching criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Discounts"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal server error"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "Products": {
-        "required": [
-          "products",
-          "total",
-          "totalPages"
-        ],
+        "required": ["products", "total", "totalPages"],
         "type": "object",
         "properties": {
           "products": {
@@ -230,11 +263,7 @@
         }
       },
       "Order": {
-        "required": [
-          "address",
-          "cart",
-          "paymentMethod"
-        ],
+        "required": ["address", "cart", "paymentMethod"],
         "type": "object",
         "properties": {
           "address": {
@@ -243,11 +272,7 @@
           },
           "paymentMethod": {
             "type": "string",
-            "enum": [
-              "creditCard",
-              "paypal",
-              "bankTransfer"
-            ]
+            "enum": ["creditCard", "paypal", "bankTransfer"]
           },
           "usePoints": {
             "type": "boolean",
@@ -271,10 +296,7 @@
         }
       },
       "CartItem": {
-        "required": [
-          "product",
-          "quantity"
-        ],
+        "required": ["product", "quantity"],
         "type": "object",
         "properties": {
           "quantity": {
@@ -288,12 +310,7 @@
         }
       },
       "CreditCard": {
-        "required": [
-          "cardNumber",
-          "cvv",
-          "expiryMonth",
-          "expiryYear"
-        ],
+        "required": ["cardNumber", "cvv", "expiryMonth", "expiryYear"],
         "type": "object",
         "properties": {
           "cardNumber": {
@@ -328,7 +345,8 @@
           "orderDetails",
           "payment",
           "totalItems",
-          "totalPrice"
+          "totalPrice",
+          "totalPriceWithDiscounts"
         ],
         "type": "object",
         "properties": {
@@ -342,13 +360,14 @@
             "format": "double",
             "example": 66.6
           },
+          "totalPriceWithDiscounts": {
+            "type": "number",
+            "format": "double",
+            "example": 66.6
+          },
           "payment": {
             "type": "string",
-            "enum": [
-              "approved",
-              "declined",
-              "error"
-            ]
+            "enum": ["approved", "declined", "error"]
           },
           "amountPaid": {
             "type": "number",
@@ -361,9 +380,7 @@
         }
       },
       "OrderErrorResponse": {
-        "required": [
-          "error"
-        ],
+        "required": ["error"],
         "type": "object",
         "properties": {
           "error": {
@@ -372,20 +389,40 @@
           }
         }
       },
+      "Discounts": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DiscountItem"
+        }
+      },
+      "DiscountItem": {
+        "required": ["percentage", "productId"],
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 11
+          },
+          "percentage": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32",
+            "example": 50
+          }
+        }
+      },
       "Order_if": {
         "properties": {
           "paymentMethod": {
             "type": "string",
-            "enum": [
-              "creditCard"
-            ]
+            "enum": ["creditCard"]
           }
         }
       },
       "Order_then": {
-        "required": [
-          "creditCard"
-        ],
+        "required": ["creditCard"],
         "properties": {
           "creditCard": {
             "$ref": "#/components/schemas/CreditCard"
