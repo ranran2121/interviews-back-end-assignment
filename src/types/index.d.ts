@@ -35,7 +35,7 @@ export type PaymentType = CreditCardType & {
 export type DiscountItemType = {
   id: number;
   percentage: number;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   productId: number;
 };
