@@ -31,3 +31,11 @@ export type OrderType = {
 export type PaymentType = CreditCardType & {
   amount: number;
 };
+
+export type DiscountItemType = {
+  id: number;
+  percentage: number;
+  startDate: Date;
+  endDate: Date;
+  productId: number;
+};

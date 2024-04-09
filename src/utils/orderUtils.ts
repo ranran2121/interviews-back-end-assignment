@@ -66,26 +66,47 @@ export function validateOrderInput(input: OrderType) {
   return value;
 }
 
-export function calculateTotal(cart: CartItemType[]): {
+export function calculateTotal(
+  cart: CartItemType[],
+  activeDiscounts: { productId: number; percentage: number }[]
+): {
   totalItems: number;
   totalPrice: number;
-  totalPriceWithBonus: number;
+  totalBonusReward: number;
+  totalPriceWithDiscounts: number;
 } {
-  const { totalItems, totalPrice, totalPriceWithBonus } = cart.reduce(
-    (acc, cartItem) => {
-      const { product, quantity } = cartItem;
-      const bonus = product.specialBonus ?? 1;
-      acc.totalItems += quantity;
-      acc.totalPrice += product.price * quantity;
-      acc.totalPriceWithBonus += product.price * quantity * bonus;
-      return acc;
-    },
-    { totalItems: 0, totalPrice: 0, totalPriceWithBonus: 0 }
-  );
+  const { totalItems, totalPrice, totalBonusReward, totalPriceWithDiscounts } =
+    cart.reduce(
+      (acc, cartItem) => {
+        const { product, quantity } = cartItem;
+        const bonus = product.specialBonus ?? 1;
+        const activeDiscount = activeDiscounts.find(
+          (discount) => discount.productId === product.id
+        );
+        const discount = activeDiscount
+          ? (100 - activeDiscount.percentage) / 100
+          : 1;
+
+        acc.totalItems += quantity;
+        acc.totalPrice += product.price * quantity;
+        acc.totalPriceWithDiscounts += product.price * quantity * discount;
+        acc.totalBonusReward +=
+          Math.floor((product.price * quantity * discount) / 25) * bonus;
+
+        return acc;
+      },
+      {
+        totalItems: 0,
+        totalPrice: 0,
+        totalBonusReward: 0,
+        totalPriceWithDiscounts: 0,
+      }
+    );
 
   return {
     totalItems,
     totalPrice,
-    totalPriceWithBonus: Math.floor(totalPriceWithBonus / 25),
+    totalPriceWithDiscounts,
+    totalBonusReward,
   };
 }

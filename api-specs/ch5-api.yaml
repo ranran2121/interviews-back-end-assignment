@@ -1,8 +1,8 @@
 ---
 openapi: 3.0.0
 info:
-  title: Products API
-  description: This is an API to query available products in the DB
+  title: Be interview API
+  description: This is an API to query available products and discounts in the DB and place orders
   version: 1.0.0
 servers:
 - url: https://virtserver.swaggerhub.com/FRANCESCAGIAMMICHELE/first/1.0.0
@@ -102,6 +102,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderErrorResponse'
+  /api/discounts:
+    get:
+      summary: searches discounts
+      description: |
+        By passing in the appropriate options, you can search for
+        the discounts in the system
+      parameters:
+      - name: active
+        in: query
+        description: search active discounts
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - "true"
+      responses:
+        "200":
+          description: list discounts matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Discounts'
+        "400":
+          description: bad input parameter
 components:
   schemas:
     Products:
@@ -237,6 +265,7 @@ components:
       - payment
       - totalItems
       - totalPrice
+      - totalPriceWithDiscounts
       type: object
       properties:
         totalItems:
@@ -244,6 +273,10 @@ components:
           format: int32
           example: 11
         totalPrice:
+          type: number
+          format: double
+          example: 66.6
+        totalPriceWithDiscounts:
           type: number
           format: double
           example: 66.6
@@ -267,6 +300,26 @@ components:
         error:
           type: string
           example: Internal Server Error
+    Discounts:
+      type: array
+      items:
+        $ref: '#/components/schemas/DiscountItem'
+    DiscountItem:
+      required:
+      - percentage
+      - productId
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int32
+          example: 11
+        percentage:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+          example: 50
     Order_if:
       properties:
         paymentMethod:

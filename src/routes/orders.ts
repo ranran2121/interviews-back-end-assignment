@@ -7,12 +7,23 @@ const orderRoutes = express.Router();
 orderRoutes.post("/", async (req: Request, res: Response) => {
   try {
     const input = validateOrderInput(req.body);
-    const { totalItems, totalPrice, totalPriceWithBonus } = calculateTotal(
-      input.cart
+    //simulate call to Discount Table to get active discounts
+    const activeDiscounts = await axios.get(
+      "http://localhost:4000/api/discounts?active=true"
     );
+
+    const {
+      totalItems,
+      totalPrice,
+      totalBonusReward,
+      totalPriceWithDiscounts,
+    } = calculateTotal(input.cart, activeDiscounts.data.discountList);
+
     const paymentBody = {
       ...input.creditCard,
-      amount: input.usePoints ? totalPrice - totalPriceWithBonus : totalPrice,
+      amount: input.usePoints
+        ? totalPriceWithDiscounts - totalBonusReward
+        : totalPriceWithDiscounts,
     };
 
     // send request to payment service
@@ -27,6 +38,7 @@ orderRoutes.post("/", async (req: Request, res: Response) => {
         payment: paymentResponse.data.status,
         totalItems,
         totalPrice,
+        totalPriceWithDiscounts,
         amountPaid: paymentBody.amount,
         orderDetails: input,
       });
