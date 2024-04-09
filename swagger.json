@@ -172,8 +172,8 @@
               }
             }
           },
-          "400" : {
-            "description" : "bad input parameter"
+          "500" : {
+            "description" : "internal server error"
           }
         }
       }
