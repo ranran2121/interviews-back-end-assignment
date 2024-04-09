@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Products API",
-    "description": "This is an API to query available products in the DB",
+    "title": "Be interview API",
+    "description": "This is an API to query available products and discounts in the DB and place orders",
     "version": "1.0.0"
   },
   "servers": [
@@ -164,7 +164,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "true"
+              ]
             }
           }
         ],
@@ -182,8 +185,8 @@
               }
             }
           },
-          "500": {
-            "description": "internal server error"
+          "400": {
+            "description": "bad input parameter"
           }
         }
       }
@@ -192,7 +195,11 @@
   "components": {
     "schemas": {
       "Products": {
-        "required": ["products", "total", "totalPages"],
+        "required": [
+          "products",
+          "total",
+          "totalPages"
+        ],
         "type": "object",
         "properties": {
           "products": {
@@ -263,7 +270,11 @@
         }
       },
       "Order": {
-        "required": ["address", "cart", "paymentMethod"],
+        "required": [
+          "address",
+          "cart",
+          "paymentMethod"
+        ],
         "type": "object",
         "properties": {
           "address": {
@@ -272,7 +283,11 @@
           },
           "paymentMethod": {
             "type": "string",
-            "enum": ["creditCard", "paypal", "bankTransfer"]
+            "enum": [
+              "creditCard",
+              "paypal",
+              "bankTransfer"
+            ]
           },
           "usePoints": {
             "type": "boolean",
@@ -296,7 +311,10 @@
         }
       },
       "CartItem": {
-        "required": ["product", "quantity"],
+        "required": [
+          "product",
+          "quantity"
+        ],
         "type": "object",
         "properties": {
           "quantity": {
@@ -310,7 +328,12 @@
         }
       },
       "CreditCard": {
-        "required": ["cardNumber", "cvv", "expiryMonth", "expiryYear"],
+        "required": [
+          "cardNumber",
+          "cvv",
+          "expiryMonth",
+          "expiryYear"
+        ],
         "type": "object",
         "properties": {
           "cardNumber": {
@@ -367,7 +390,11 @@
           },
           "payment": {
             "type": "string",
-            "enum": ["approved", "declined", "error"]
+            "enum": [
+              "approved",
+              "declined",
+              "error"
+            ]
           },
           "amountPaid": {
             "type": "number",
@@ -380,7 +407,9 @@
         }
       },
       "OrderErrorResponse": {
-        "required": ["error"],
+        "required": [
+          "error"
+        ],
         "type": "object",
         "properties": {
           "error": {
@@ -396,7 +425,10 @@
         }
       },
       "DiscountItem": {
-        "required": ["percentage", "productId"],
+        "required": [
+          "percentage",
+          "productId"
+        ],
         "type": "object",
         "properties": {
           "productId": {
@@ -417,12 +449,16 @@
         "properties": {
           "paymentMethod": {
             "type": "string",
-            "enum": ["creditCard"]
+            "enum": [
+              "creditCard"
+            ]
           }
         }
       },
       "Order_then": {
-        "required": ["creditCard"],
+        "required": [
+          "creditCard"
+        ],
         "properties": {
           "creditCard": {
             "$ref": "#/components/schemas/CreditCard"

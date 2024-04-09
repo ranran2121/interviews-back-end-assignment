@@ -1,14 +1,14 @@
 ---
 openapi: 3.0.0
 info:
-  title: Products API
-  description: This is an API to query available products in the DB
+  title: Be interview API
+  description: This is an API to query available products and discounts in the DB and place orders
   version: 1.0.0
 servers:
-  - url: https://virtserver.swaggerhub.com/FRANCESCAGIAMMICHELE/first/1.0.0
-    description: SwaggerHub API Auto Mocking
-  - url: https://virtserver.swaggerhub.com/FRANCESCAGIAMMICHELE/challenge1/1.0.0
-    description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/FRANCESCAGIAMMICHELE/first/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/FRANCESCAGIAMMICHELE/challenge1/1.0.0
+  description: SwaggerHub API Auto Mocking
 paths:
   /api/products:
     get:
@@ -18,43 +18,43 @@ paths:
         the products in the system
       operationId: listProducts
       parameters:
-        - name: page
-          in: query
-          description: page number
-          required: false
-          style: form
-          explode: true
-          schema:
-            minimum: 0
-            type: integer
-            format: int32
-        - name: limit
-          in: query
-          description: maximum number of records to return
-          required: false
-          style: form
-          explode: true
-          schema:
-            maximum: 100
-            minimum: 0
-            type: integer
-            format: int32
-        - name: category
-          in: query
-          description: category of the item
-          required: false
-          style: form
-          explode: true
-          schema:
-            type: string
-        - name: search
-          in: query
-          description: search criteria
-          required: false
-          style: form
-          explode: true
-          schema:
-            type: string
+      - name: page
+        in: query
+        description: page number
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+      - name: category
+        in: query
+        description: category of the item
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: search criteria
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
       responses:
         "200":
           description: search results matching criteria
@@ -63,7 +63,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Products"
+                  $ref: '#/components/schemas/Products'
         "400":
           description: bad input parameter
   /api/orders:
@@ -75,7 +75,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Order"
+              $ref: '#/components/schemas/Order'
         required: true
       responses:
         "200":
@@ -83,25 +83,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrderResponse"
+                $ref: '#/components/schemas/OrderResponse'
         "400":
           description: bad input parameter
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrderErrorResponse"
+                $ref: '#/components/schemas/OrderErrorResponse'
         "402":
           description: payment required
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrderResponse"
+                $ref: '#/components/schemas/OrderResponse'
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrderErrorResponse"
+                $ref: '#/components/schemas/OrderErrorResponse'
   /api/discounts:
     get:
       summary: searches discounts
@@ -109,14 +109,16 @@ paths:
         By passing in the appropriate options, you can search for
         the discounts in the system
       parameters:
-        - name: active
-          in: query
-          description: search active discounts
-          required: false
-          style: form
-          explode: true
-          schema:
-            type: string
+      - name: active
+        in: query
+        description: search active discounts
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - "true"
       responses:
         "200":
           description: list discounts matching criteria
@@ -125,20 +127,20 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Discounts"
-        "500":
-          description: internal server error
+                  $ref: '#/components/schemas/Discounts'
+        "400":
+          description: bad input parameter
 components:
   schemas:
     Products:
       required:
-        - products
-        - total
-        - totalPages
+      - products
+      - total
+      - totalPages
       type: object
       properties:
         products:
-          $ref: "#/components/schemas/ProductItems"
+          $ref: '#/components/schemas/ProductItems'
         total:
           type: integer
           format: int32
@@ -150,15 +152,15 @@ components:
     ProductItems:
       type: array
       items:
-        $ref: "#/components/schemas/ProductItem"
+        $ref: '#/components/schemas/ProductItem'
     ProductItem:
       required:
-        - availableQuantity
-        - category
-        - id
-        - imageUrl
-        - name
-        - price
+      - availableQuantity
+      - category
+      - id
+      - imageUrl
+      - name
+      - price
       type: object
       properties:
         id:
@@ -189,9 +191,9 @@ components:
           default: 1
     Order:
       required:
-        - address
-        - cart
-        - paymentMethod
+      - address
+      - cart
+      - paymentMethod
       type: object
       properties:
         address:
@@ -200,26 +202,26 @@ components:
         paymentMethod:
           type: string
           enum:
-            - creditCard
-            - paypal
-            - bankTransfer
+          - creditCard
+          - paypal
+          - bankTransfer
         usePoints:
           type: boolean
           default: false
         cart:
-          $ref: "#/components/schemas/Cart"
+          $ref: '#/components/schemas/Cart'
         if:
-          $ref: "#/components/schemas/Order_if"
+          $ref: '#/components/schemas/Order_if'
         then:
-          $ref: "#/components/schemas/Order_then"
+          $ref: '#/components/schemas/Order_then'
     Cart:
       type: array
       items:
-        $ref: "#/components/schemas/CartItem"
+        $ref: '#/components/schemas/CartItem'
     CartItem:
       required:
-        - product
-        - quantity
+      - product
+      - quantity
       type: object
       properties:
         quantity:
@@ -227,13 +229,13 @@ components:
           format: int32
           example: 1
         product:
-          $ref: "#/components/schemas/ProductItem"
+          $ref: '#/components/schemas/ProductItem'
     CreditCard:
       required:
-        - cardNumber
-        - cvv
-        - expiryMonth
-        - expiryYear
+      - cardNumber
+      - cvv
+      - expiryMonth
+      - expiryYear
       type: object
       properties:
         cardNumber:
@@ -258,12 +260,12 @@ components:
           example: "1977"
     OrderResponse:
       required:
-        - amountPaid
-        - orderDetails
-        - payment
-        - totalItems
-        - totalPrice
-        - totalPriceWithDiscounts
+      - amountPaid
+      - orderDetails
+      - payment
+      - totalItems
+      - totalPrice
+      - totalPriceWithDiscounts
       type: object
       properties:
         totalItems:
@@ -281,18 +283,18 @@ components:
         payment:
           type: string
           enum:
-            - approved
-            - declined
-            - error
+          - approved
+          - declined
+          - error
         amountPaid:
           type: number
           format: double
           example: 66.6
         orderDetails:
-          $ref: "#/components/schemas/Order"
+          $ref: '#/components/schemas/Order'
     OrderErrorResponse:
       required:
-        - error
+      - error
       type: object
       properties:
         error:
@@ -301,11 +303,11 @@ components:
     Discounts:
       type: array
       items:
-        $ref: "#/components/schemas/DiscountItem"
+        $ref: '#/components/schemas/DiscountItem'
     DiscountItem:
       required:
-        - percentage
-        - productId
+      - percentage
+      - productId
       type: object
       properties:
         productId:
@@ -323,10 +325,10 @@ components:
         paymentMethod:
           type: string
           enum:
-            - creditCard
+          - creditCard
     Order_then:
       required:
-        - creditCard
+      - creditCard
       properties:
         creditCard:
-          $ref: "#/components/schemas/CreditCard"
+          $ref: '#/components/schemas/CreditCard'
