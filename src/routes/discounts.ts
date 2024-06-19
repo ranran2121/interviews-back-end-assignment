@@ -1,26 +1,18 @@
 import express, { Request, Response } from "express";
-import { generateDiscountList } from "../mocks/discountList";
-import { getActiveDiscounts } from "../utils/discountUtils";
+import { getDiscounts } from "../controller/discounts";
 
 const discountRoutes = express.Router();
 
 discountRoutes.get("/", async (req: Request, res: Response) => {
   const active = req.query?.active as string;
-  let list = generateDiscountList(10);
-
-  let discountList = list.map((discount) => {
-    return { percentage: discount.percentage, productId: discount.productId };
-  });
-
-  if (active === "true") {
-    discountList = getActiveDiscounts(list);
-  } else if (active && active !== "true") {
+  try {
+    const discountList = getDiscounts(active);
+    return res.status(200).json({
+      discountList,
+    });
+  } catch (err) {
     return res.status(400).json({ message: "Bad input parameter" });
   }
-
-  return res.status(200).json({
-    discountList,
-  });
 });
 
 discountRoutes.use((req, res, next) => {
