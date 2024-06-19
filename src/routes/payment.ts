@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { validatePaymentInput } from "../utils/paymentUtils";
+import { postPayment } from "../controller/payments";
 
 const paymentRoutes = express.Router();
 
@@ -9,24 +10,13 @@ paymentRoutes.post("/", async (req: Request, res: Response) => {
 
     //here I should check if the card is able to cover the amount of the payment
     //not having info about the active balance of the card, I generate a random number that simulate the credit card coverage
-    const coverage = Math.floor(Math.random() * 900000000) + 100000000;
 
-    if (coverage < 400000000) {
-      return res.status(200).json({
-        transactionId: `tx_${coverage}`,
-        status: "approved",
-      });
-    } else if (coverage >= 400000000 && coverage < 700000000) {
-      return res.status(200).json({
-        transactionId: `tx_${coverage}`,
-        status: "declined",
-      });
-    } else {
-      return res.status(200).json({
-        transactionId: `tx_${coverage}`,
-        status: "error",
-      });
-    }
+    const { transactionId, status } = postPayment();
+
+    return res.status(200).json({
+      transactionId,
+      status,
+    });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
