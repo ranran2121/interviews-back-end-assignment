@@ -24,7 +24,7 @@ orderRoutes.post("/", async (req: Request, res: Response) => {
       amountPaid,
       orderDetails: input,
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error.message.includes("Validation Error")) {
       return res.status(400).json({
         error: error.message,
