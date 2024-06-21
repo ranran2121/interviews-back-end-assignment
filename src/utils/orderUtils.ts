@@ -25,7 +25,8 @@ export function validateOrderInput(input: OrderType) {
             }),
             quantity: Joi.number().required(),
           })
-        ),
+        )
+        .custom(validateItemQuantity),
       creditCard: Joi.object().when("paymentMethod", {
         is: "creditCard",
         then: Joi.object({
@@ -109,4 +110,18 @@ export function calculateTotal(
     totalPriceWithDiscounts,
     totalBonusReward,
   };
+}
+
+export function validateItemQuantity(
+  value: any,
+  helpers: { message: (arg0: { custom: string }) => any }
+) {
+  for (const item of value) {
+    if (item.quantity > item.product.availableQuantity) {
+      return helpers.message({
+        custom: `Product ${item.product.name} does not have enough stock.`,
+      });
+    }
+  }
+  return value;
 }

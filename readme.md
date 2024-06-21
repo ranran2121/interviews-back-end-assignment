@@ -92,6 +92,36 @@ Run the script
 $ npm run dev:watch
 ```
 
+## How to run for concurrency testing purposes
+
+Run the script
+
+```bash
+$ docker compose build
+```
+
+and then run
+
+```bash
+$ docker compose up -d
+```
+
+This is needed as it will start redis that is used to avoid concurrency for the post order requests. The lock system of redis allow requests to be treated one by one in order to avoid that the requested quantity of an item is not actually available. The redis lock system has been choosed because more scalable
+
+After the redis container is started, you can run
+
+```bash
+$ npm run dev:watch
+```
+
+For testing purposes, you can run
+
+```bash
+$ npm run test
+```
+
+This will run a script that shows that concurrent requests are treated one after the other. The product list is actually hardcoded and the successful orders will decrease the quantity of the item. Please note that in the test case there is no check for item being unavailable, so the quantity may drop below zero. This is because in the real scenario the check is done in the API
+
 ![Capybara](https://media.istockphoto.com/id/1418210562/photo/brazil-wildlife-capybara-hydrochoerus-hydrochaeris-biggest-mouse-near-the-water-with-evening.jpg?s=612x612&w=0&k=20&c=4n7n90f6wotXEqt_Wg9R-zpHSrzuu275_4vMdQXToiM=)
 
 ...
